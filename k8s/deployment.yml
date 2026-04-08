@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: planet-api
+  namespace: planet-api
+  labels:
+    app: planet-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: planet-api
+  template:
+    metadata:
+      labels:
+        app: planet-api
+    spec:
+      containers:
+      - name: planet-api
+        image: planet-api:latest
+        imagePullPolicy: Never  # Use local image
+        ports:
+        - containerPort: 8000
+          name: http
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5

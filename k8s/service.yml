@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: planet-api
+  namespace: planet-api
+  labels:
+    app: planet-api
+spec:
+  type: LoadBalancer
+  selector:
+    app: planet-api
+  ports:
+  - port: 80
+    targetPort: 8000
+    protocol: TCP
+    name: http

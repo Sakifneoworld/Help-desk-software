@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  planet-api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    container_name: planet-api
+    volumes:
+      - ./app:/app/app
